@@ -23,18 +23,22 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-          fonts: [
-            `Montserrat ital`,
-            `sans-serif\:300`, `300i`, `400`, `400i`, `500`, `600`, `700`, `900`
-        ],
         fonts: [
-          `Mulish`,
-          `sans-serif\:300`, `400`, `500`, `600`, `700`
+          `Montserrat ital`,
+          `sans-serif\:300`,
+          `300i`,
+          `400`,
+          `400i`,
+          `500`,
+          `600`,
+          `700`,
+          `900`,
         ],
-        display: 'swap',
+        fonts: [`Mulish`, `sans-serif\:300`, `400`, `500`, `600`, `700`],
+        display: "swap",
       },
-  },
-  
+    },
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -42,7 +46,6 @@ module.exports = {
         path: `${__dirname}/src/data/`,
       },
     },
-
 
     {
       resolve: `gatsby-plugin-manifest`,
@@ -56,12 +59,12 @@ module.exports = {
         icon: `src/assets/images/icon.png`, // This path is relative to the root of the site.
       },
     },
-    
+
     {
-        resolve: "gatsby-plugin-anchor-links",
-        options: {
-          offset: -100
-        }
+      resolve: "gatsby-plugin-anchor-links",
+      options: {
+        offset: -100,
+      },
     },
 
     {
@@ -71,7 +74,7 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 1920
+              maxWidth: 1920,
             },
           },
         ],
@@ -81,9 +84,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sass`,
     `gatsby-transformer-json`,
-    
-    
-    
+
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
