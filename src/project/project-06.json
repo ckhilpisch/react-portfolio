@@ -1,0 +1,21 @@
+{
+    "id": "project-06",
+    "title": "Employee Directory",
+    "category": "Photography",
+    "website":"https://ckhilpisch.github.io/Employee-Directory/",
+    "featured_image": "./images/project-06.png",
+    "is_featured": true,
+    "body": [
+        "Created an Employee Directory.  An employee or manager would benefit greatly from being able to view non-sensitive data about other employees. It would be particularly helpful to be able to filter employees by name. This app is created to help a person view an employee directory. The user can search by name in the search bar, and it will dynamically create the list of the search every time a letter is entered. All of the columns in the app can be sorted both ascending and descending."
+    ],
+    "features": [
+        {
+            "id": "feature-1",
+            "image": "./images/project-02.jpg"
+        },
+        {
+            "id": "feature-2",
+            "image": "./images/project-03.jpg"
+        }
+    ]
+}

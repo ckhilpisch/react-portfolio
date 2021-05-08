@@ -12,7 +12,6 @@ const About = ( ) => {
                 subtitle
                 description2
                 downloadButton
-                linkBUtton
                 
             },
             file(relativePath: {eq: "images/banner/person-image.jpg"}) {
@@ -30,7 +29,6 @@ const About = ( ) => {
     const description = aboutQueryData.homedefaultJson.description;
     const description2 = aboutQueryData.homedefaultJson.description2;
     const downloadButton = aboutQueryData.homedefaultJson.downloadButton;
-    const linkBUtton = aboutQueryData.homedefaultJson.linkBUtton;
     const PortfolioImages = aboutQueryData.file.childImageSharp.fixed;
 
 

@@ -1,12 +1,10 @@
 import React from "react";
 import Layout from "../components/layout"
-import Client from "../components/client"
 import SEO from "../components/seo"
 
 const NotFoundPage = () => (
   <Layout>
     <SEO title="404: Not found" />
-    <Client />
     <div className="error-page-wrapper">
         <div className="container">
             <div className="row">
@@ -24,4 +22,5 @@ const NotFoundPage = () => (
   </Layout>
 )
 export default NotFoundPage
+
 

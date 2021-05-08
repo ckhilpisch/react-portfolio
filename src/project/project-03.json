@@ -1,0 +1,21 @@
+{
+    "id": "project-03",
+    "title": "Weather App",
+    "category": "Weather Application",
+    "website": "https://ckhilpisch.github.io/WeatherApp/",
+    "featured_image": "./images/project-03.png",
+    "is_featured": true,
+    "body": [
+        "Travelers always love to know the weather of their destination cities. This app allows them to see the current weather of a city, and the 5 day forecast including the temperature, the humidity, wind speed, and the uv index. The user can view current weather conditions for that city with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index, which is color coded according to the scale of the UV index. The user is also given a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity. A user can click a city in the search history and is again presented with current and future conditions for that city. WHen the page is opened, the user is presented with the last city the user searched."
+    ],
+    "features": [
+        {
+            "id": "feature-1",
+            "image": "./images/project-02.jpg"
+        },
+        {
+            "id": "feature-2",
+            "image": "./images/project-03.jpg"
+        }
+    ]
+}

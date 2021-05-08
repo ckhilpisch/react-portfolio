@@ -1,0 +1,21 @@
+{
+    "id": "project-04",
+    "title": "Tech Blog",
+    "category": "Blog Website",
+    "website":"https://techblog1.herokuapp.com/",
+    "featured_image": "./images/project-04.png",
+    "is_featured": true,
+    "body": [
+        "Created a Tech Blog website that users can interface with that makes it easy for the user to view and interact with information stored in a blog website. I was challenged with architecting and building a website where developers can publish their blog posts and comment on other developers’ posts as well. I employeed the MVC paradigm in the architectural structure, while utilizing handlebars as the HTML templating language, with Sequelize as the ORM and the express-session npm package for authentication."
+    ],
+    "features": [
+        {
+            "id": "feature-1",
+            "image": "./images/project-02.jpg"
+        },
+        {
+            "id": "feature-2",
+            "image": "./images/project-03.jpg"
+        }
+    ]
+}

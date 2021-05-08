@@ -1,0 +1,128 @@
+[
+  {
+    "id": "project-01",
+    "title": "Park Pack",
+    "category": "Social Media App",
+    "website": "https://github.com/ckhilpisch/park-pack",
+    "featured_image": "./images/project-01.png",
+    "is_featured": true,
+    "body": [
+      "This app is a social media site...FOR DOGGOS! Create a profile for your dog, cute picture included, and scroll through other users to create friendships. There is even a built in chat application so a client can plan out a doggy date!"
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  },
+  {
+    "id": "project-02",
+    "title": "Daily Recreational",
+    "category": "Photography",
+    "website": "https://ckhilpisch.github.io/Daily-Recreational/",
+    "featured_image": "./images/project-02.png",
+    "is_featured": true,
+    "body": [
+      "Daily Recreational is here to inspire you to get out of the house and rekindle your love for outdoor activities. Daily Recreational provides you with an inspirational quote to brighten your day, paired with useful information on National Parks based on your desired state and activity. Whether you like birdwatching or mountain climbing, the Daily Recreational is your source for getting in a positively active mindset."
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  },
+  {
+    "id": "project-03",
+    "title": "Weather App",
+    "category": "Weather Application",
+    "website": "https://ckhilpisch.github.io/WeatherApp/",
+    "featured_image": "./images/project-03.png",
+    "is_featured": true,
+    "body": [
+      "Travelers always love to know the weather of their destination cities. This app allows them to see the current weather of a city, and the 5 day forecast including the temperature, the humidity, wind speed, and the uv index. The user can view current weather conditions for that city with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index, which is color coded according to the scale of the UV index. The user is also given a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity. A user can click a city in the search history and is again presented with current and future conditions for that city. WHen the page is opened, the user is presented with the last city the user searched."
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  },
+  {
+    "id": "project-04",
+    "title": "Tech Blog",
+    "category": "Blog Website",
+    "website": "https://techblog1.herokuapp.com/",
+    "featured_image": "./images/project-04.png",
+    "is_featured": true,
+    "body": [
+      "Created a Tech Blog website that users can interface with that makes it easy for the user to view and interact with information stored in a blog website. I was challenged with architecting and building a website where developers can publish their blog posts and comment on other developers’ posts as well. I employeed the MVC paradigm in the architectural structure, while utilizing handlebars as the HTML templating language, with Sequelize as the ORM and the express-session npm package for authentication."
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  },
+  {
+    "id": "project-05",
+    "title": "Budget Tracker",
+    "category": "Tracking Application",
+    "website": "https://budget-tracker-2021.herokuapp.com",
+    "featured_image": "./images/project-05.png",
+    "is_featured": true,
+    "body": [
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text."
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  },
+  {
+    "id": "project-06",
+    "title": "Employee Directory",
+    "category": "Photography",
+    "website": "https://ckhilpisch.github.io/Employee-Directory/",
+    "featured_image": "./images/project-06.png",
+    "is_featured": true,
+    "body": [
+      "Created an Employee Directory.  An employee or manager would benefit greatly from being able to view non-sensitive data about other employees. It would be particularly helpful to be able to filter employees by name. This app is created to help a person view an employee directory. The user can search by name in the search bar, and it will dynamically create the list of the search every time a letter is entered. All of the columns in the app can be sorted both ascending and descending."
+    ],
+    "features": [
+      {
+        "id": "feature-1",
+        "image": "./images/project-02.jpg"
+      },
+      {
+        "id": "feature-2",
+        "image": "./images/project-03.jpg"
+      }
+    ]
+  }
+]

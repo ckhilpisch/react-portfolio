@@ -1,5 +1,5 @@
 import React, {useState , useEffect} from 'react';
-import { FaFacebookF, FaLinkedinIn, FaGithub, FaInstagram,  } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaInstagram,  FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 
 
 const Footer = ({showBelow}) => {
@@ -30,27 +30,31 @@ const Footer = ({showBelow}) => {
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt_md--30 mt_sm--30 wow fadeInDown" data-wow-delay="200ms" data-wow-duration="0.1s">
                             <div className="ft-info">
-                                <p> <br /></p>
+                                <p>CAROLYN HILPISCH <br />PORTFOLIO PAGE</p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt_md--30 mt_sm--30 wow fadeInDown" data-wow-delay="200ms" data-wow-duration="0.2s">
                             <div className="ft-info">
-                                <p>7188 Joplin Ave S <br />Cottage Grove, MN, 55016</p>
+                                <p>7188 Joplin Ave South,  <br />Cottage Grove, MN, 55016</p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt_md--30 mt_sm--30 wow fadeInDown" data-wow-delay="200ms" data-wow-duration="0.4s">
                             <div className="ft-info">
-                                <p>ckhilpisch@gmail.com<br />(612)-423-5918)</p>
+                                <p>ckhilpisch@gmail.com<br />612-423-5918</p>
                             </div>
                         </div>
 
                         <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt_md--30 mt_sm--30 wow fadeInDown" data-wow-delay="200ms" data-wow-duration="0.6s">
                             <div className="ft-info">
                                 <ul className="social-share">
-                                    <li><a href="#link"><FaFacebookF /></a></li>
-                                    <li><a href="#link"><FaLinkedinIn /></a></li>
-                                    <li><a href="#link"><FaInstagram /></a></li>
-                                    <li><a href="#link"><FaGithub /></a></li>
+                                    <li><a href="https://www.facebook.com/carolyn.hilpisch"><FaFacebookF /></a></li>
+                                    <li><a href="https://www.linkedin.com/in/carolyn-hilpisch/"><FaLinkedinIn /></a></li>
+                                    <li><a href="https://github.com/ckhilpisch"><FaGithub /></a></li>
+                                    <li><a href="https://www.instagram.com/carolyn_k_h/"><FaInstagram /></a></li>
+                                    <li><a href="mailto:ckhilpisch@gmail.com"><FaEnvelope /></a></li>
+                                    <li><a href="tel:+1-612-423-5918"><FaPhone /></a></li>
+
+                                    
                                 </ul>
                             </div>
                         </div>

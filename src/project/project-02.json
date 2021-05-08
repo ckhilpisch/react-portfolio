@@ -1,0 +1,21 @@
+{
+    "id": "project-02",
+    "title": "Daily Recreational",
+    "category": "Photography",
+    "website": "https://ckhilpisch.github.io/Daily-Recreational/",
+    "featured_image": "./images/project-02.png",
+    "is_featured": true,
+    "body": [
+        "Daily Recreational is here to inspire you to get out of the house and rekindle your love for outdoor activities. Daily Recreational provides you with an inspirational quote to brighten your day, paired with useful information on National Parks based on your desired state and activity. Whether you like birdwatching or mountain climbing, the Daily Recreational is your source for getting in a positively active mindset."
+    ],
+    "features": [
+        {
+            "id": "feature-1",
+            "image": "./images/project-02.jpg"
+        },
+        {
+            "id": "feature-2",
+            "image": "./images/project-03.jpg"
+        }
+    ]
+}
