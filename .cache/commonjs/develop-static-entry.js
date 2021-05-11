@@ -38,9 +38,7 @@ try {
 
 Html = Html && Html.__esModule ? Html.default : Html;
 
-var _default = ({
-  pagePath
-}) => {
+var _default = (pagePath, callback) => {
   let headComponents = [/*#__PURE__*/_react.default.createElement("meta", {
     key: "environment",
     name: "note",
@@ -119,22 +117,11 @@ var _default = ({
     headComponents: headComponents.concat([/*#__PURE__*/_react.default.createElement("script", {
       key: `io`,
       src: "/socket.io/socket.io.js"
-    }), /*#__PURE__*/_react.default.createElement("link", {
-      key: "styles",
-      rel: "stylesheet",
-      href: "/commons.css"
     })]),
     htmlAttributes,
     bodyAttributes,
     preBodyComponents,
     postBodyComponents: postBodyComponents.concat([/*#__PURE__*/_react.default.createElement("script", {
-      key: `polyfill`,
-      src: "/polyfill.js",
-      noModule: true
-    }), /*#__PURE__*/_react.default.createElement("script", {
-      key: `framework`,
-      src: "/framework.js"
-    }), /*#__PURE__*/_react.default.createElement("script", {
       key: `commons`,
       src: "/commons.js"
     })])
@@ -142,7 +129,7 @@ var _default = ({
 
   htmlStr = (0, _server.renderToStaticMarkup)(htmlElement);
   htmlStr = `<!DOCTYPE html>${htmlStr}`;
-  return htmlStr;
+  callback(null, htmlStr);
 };
 
 exports.default = _default;

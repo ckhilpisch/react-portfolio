@@ -25,30 +25,20 @@ var _emitter = _interopRequireDefault(require("./emitter"));
 
 var _routeAnnouncerProps = require("./route-announcer-props");
 
-var _reachRouter = require("@gatsbyjs/reach-router");
+var _router = require("@reach/router");
 
-var _history = require("@gatsbyjs/reach-router/lib/history");
+var _history = require("@reach/router/lib/history");
 
 var _gatsbyLink = require("gatsby-link");
 
 // Convert to a map for faster lookup in maybeRedirect()
-const redirectMap = new Map();
-const redirectIgnoreCaseMap = new Map();
-
-_redirects.default.forEach(redirect => {
-  if (redirect.ignoreCase) {
-    redirectIgnoreCaseMap.set(redirect.fromPath, redirect);
-  } else {
-    redirectMap.set(redirect.fromPath, redirect);
-  }
-});
+const redirectMap = _redirects.default.reduce((map, redirect) => {
+  map[redirect.fromPath] = redirect;
+  return map;
+}, {});
 
 function maybeRedirect(pathname) {
-  let redirect = redirectMap.get(pathname);
-
-  if (!redirect) {
-    redirect = redirectIgnoreCaseMap.get(pathname.toLowerCase());
-  }
+  const redirect = redirectMap[pathname];
 
   if (redirect != null) {
     if (process.env.NODE_ENV !== `production`) {
@@ -80,36 +70,15 @@ const onRouteUpdate = (location, prevLocation) => {
       location,
       prevLocation
     });
-
-    if (process.env.GATSBY_EXPERIMENTAL_QUERY_ON_DEMAND && process.env.GATSBY_QUERY_ON_DEMAND_LOADING_INDICATOR === `true`) {
-      _emitter.default.emit(`onRouteUpdate`, {
-        location,
-        prevLocation
-      });
-    }
   }
 };
 
 const navigate = (to, options = {}) => {
-  // Support forward/backward navigation with numbers
-  // navigate(-2) (jumps back 2 history steps)
-  // navigate(2)  (jumps forward 2 history steps)
-  if (typeof to === `number`) {
-    _history.globalHistory.navigate(to);
-
-    return;
-  }
-
   let {
     pathname
   } = (0, _gatsbyLink.parsePath)(to);
-  let redirect = redirectMap.get(pathname);
-
-  if (!redirect) {
-    redirect = redirectIgnoreCaseMap.get(pathname.toLowerCase());
-  } // If we're redirecting, just replace the passed in pathname
+  const redirect = redirectMap[pathname]; // If we're redirecting, just replace the passed in pathname
   // to the one we want to redirect to.
-
 
   if (redirect) {
     to = redirect.toPath;
@@ -160,11 +129,12 @@ const navigate = (to, options = {}) => {
           });
         }
 
+        console.log(`Site has changed on server. Reloading browser`);
         window.location = pathname;
       }
     }
 
-    (0, _reachRouter.navigate)(to, options);
+    (0, _router.navigate)(to, options);
     clearTimeout(timeoutId);
   });
 };
@@ -183,9 +153,7 @@ function shouldUpdateScroll(prevRouterProps, {
     routerProps: {
       location
     },
-    getSavedScrollPosition: args => [0, // FIXME this is actually a big code smell, we should fix this
-    // eslint-disable-next-line @babel/no-invalid-this
-    this._stateStorage.read(args, args.key)]
+    getSavedScrollPosition: args => this._stateStorage.read(args)
   });
 
   if (results.length > 0) {
@@ -270,21 +238,7 @@ class RouteAnnouncer extends _react.default.Component {
     }));
   }
 
-}
-
-const compareLocationProps = (prevLocation, nextLocation) => {
-  var _prevLocation$state, _nextLocation$state;
-
-  if (prevLocation.href !== nextLocation.href) {
-    return true;
-  }
-
-  if ((prevLocation === null || prevLocation === void 0 ? void 0 : (_prevLocation$state = prevLocation.state) === null || _prevLocation$state === void 0 ? void 0 : _prevLocation$state.key) !== (nextLocation === null || nextLocation === void 0 ? void 0 : (_nextLocation$state = nextLocation.state) === null || _nextLocation$state === void 0 ? void 0 : _nextLocation$state.key)) {
-    return true;
-  }
-
-  return false;
-}; // Fire on(Pre)RouteUpdate APIs
+} // Fire on(Pre)RouteUpdate APIs
 
 
 class RouteUpdates extends _react.default.Component {
@@ -297,19 +251,19 @@ class RouteUpdates extends _react.default.Component {
     onRouteUpdate(this.props.location, null);
   }
 
-  shouldComponentUpdate(prevProps) {
-    if (compareLocationProps(prevProps.location, this.props.location)) {
+  componentDidUpdate(prevProps, prevState, shouldFireRouteUpdate) {
+    if (shouldFireRouteUpdate) {
+      onRouteUpdate(this.props.location, prevProps.location);
+    }
+  }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
       onPreRouteUpdate(this.props.location, prevProps.location);
       return true;
     }
 
     return false;
-  }
-
-  componentDidUpdate(prevProps) {
-    if (compareLocationProps(prevProps.location, this.props.location)) {
-      onRouteUpdate(this.props.location, prevProps.location);
-    }
   }
 
   render() {

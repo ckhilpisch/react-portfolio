@@ -1,7 +1,7 @@
 import React from 'react';
 import Img from "gatsby-image";
 import Image from "../elements/image";
-import { FiList, FiUser, FiInstagram } from "react-icons/fi";
+import { FiList  } from "react-icons/fi";
 import Layout from "../components/layout";
 
 const ProjectDetails = ({data}) => {
@@ -24,8 +24,6 @@ const ProjectDetails = ({data}) => {
                                                 <h3 className="mt--20">Details</h3>
                                                 <ul className="list_holder">
                                                     <li><span className="icon"><FiList />Category:</span><span className="projectinfo">{projectData.category}</span></li>
-                                                    <li><span className="icon"><FiUser />Client:</span><span className="projectinfo">{projectData.client}</span></li>
-                                                    <li><span className="icon"><FiInstagram />Images by:</span><span className="projectinfo">{projectData.imgesBY}</span></li>
                                                 </ul>
                                                 <p className="mt--20">{projectData.body}</p>
                                             </div>
@@ -63,26 +61,7 @@ export const query = graphql `
             body
             category
             website
-            featured_image {
-                childImageSharp {
-                    fluid(maxHeight: 1000, maxWidth: 1920, quality: 100) {
-                        ...GatsbyImageSharpFluid_withWebp
-                        presentationHeight
-                        presentationWidth
-                    }
-                }
-            },
-            features {
-                image {
-                    childImageSharp {
-                      fluid(maxWidth: 1920, maxHeight: 1280, quality: 100) {
-                        ...GatsbyImageSharpFluid_withWebp
-                        presentationWidth
-                        presentationHeight
-                      }
-                    }
-                }
-            }
+            image
             
         }
     }

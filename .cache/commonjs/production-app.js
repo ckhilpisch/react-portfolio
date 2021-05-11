@@ -10,13 +10,11 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _reachRouter = require("@gatsbyjs/reach-router");
+var _router = require("@reach/router");
 
 var _gatsbyReactRouterScroll = require("gatsby-react-router-scroll");
 
 var _domready = _interopRequireDefault(require("@mikaelkristiansson/domready"));
-
-var _gatsby = require("gatsby");
 
 var _navigation = require("./navigation");
 
@@ -24,7 +22,7 @@ var _emitter = _interopRequireDefault(require("./emitter"));
 
 var _pageRenderer = _interopRequireDefault(require("./page-renderer"));
 
-var _asyncRequires = _interopRequireDefault(require("$virtual/async-requires"));
+var _asyncRequires = _interopRequireDefault(require("./async-requires"));
 
 var _loader = require("./loader");
 
@@ -32,7 +30,7 @@ var _ensureResources = _interopRequireDefault(require("./ensure-resources"));
 
 var _stripPrefix = _interopRequireDefault(require("./strip-prefix"));
 
-var _matchPaths = _interopRequireDefault(require("$virtual/match-paths.json"));
+var _matchPaths = _interopRequireDefault(require("./match-paths.json"));
 
 // Generated during bootstrap
 const loader = new _loader.ProdLoader(_asyncRequires.default, _matchPaths.default);
@@ -45,7 +43,7 @@ window.___loader = _loader.publicLoader;
 (0, _apiRunnerBrowser.apiRunnerAsync)(`onClientEntry`).then(() => {
   // Let plugins register a service worker. The plugin just needs
   // to return true.
-  if ((0, _apiRunnerBrowser.apiRunner)(`registerServiceWorker`).filter(Boolean).length > 0) {
+  if ((0, _apiRunnerBrowser.apiRunner)(`registerServiceWorker`).length > 0) {
     require(`./register-service-worker`);
   } // In gatsby v2 if Router is used in page using matchPaths
   // paths need to contain full path.
@@ -57,45 +55,21 @@ window.___loader = _loader.publicLoader;
   // Remove this in v3
 
 
-  const RouteHandler = props => /*#__PURE__*/_react.default.createElement(_reachRouter.BaseContext.Provider, {
+  const RouteHandler = props => /*#__PURE__*/_react.default.createElement(_router.BaseContext.Provider, {
     value: {
       baseuri: `/`,
       basepath: `/`
     }
   }, /*#__PURE__*/_react.default.createElement(_pageRenderer.default, props));
 
-  const DataContext = /*#__PURE__*/_react.default.createContext({});
-
-  class GatsbyRoot extends _react.default.Component {
-    render() {
-      const {
-        children
-      } = this.props;
-      return /*#__PURE__*/_react.default.createElement(_reachRouter.Location, null, ({
-        location
-      }) => /*#__PURE__*/_react.default.createElement(_ensureResources.default, {
-        location: location
-      }, ({
-        pageResources,
-        location
-      }) => {
-        const staticQueryResults = (0, _loader.getStaticQueryResults)();
-        return /*#__PURE__*/_react.default.createElement(_gatsby.StaticQueryContext.Provider, {
-          value: staticQueryResults
-        }, /*#__PURE__*/_react.default.createElement(DataContext.Provider, {
-          value: {
-            pageResources,
-            location
-          }
-        }, children));
-      }));
-    }
-
-  }
-
   class LocationHandler extends _react.default.Component {
     render() {
-      return /*#__PURE__*/_react.default.createElement(DataContext.Consumer, null, ({
+      const {
+        location
+      } = this.props;
+      return /*#__PURE__*/_react.default.createElement(_ensureResources.default, {
+        location: location
+      }, ({
         pageResources,
         location
       }) => /*#__PURE__*/_react.default.createElement(_navigation.RouteUpdates, {
@@ -103,7 +77,7 @@ window.___loader = _loader.publicLoader;
       }, /*#__PURE__*/_react.default.createElement(_gatsbyReactRouterScroll.ScrollContext, {
         location: location,
         shouldUpdateScroll: _navigation.shouldUpdateScroll
-      }, /*#__PURE__*/_react.default.createElement(_reachRouter.Router, {
+      }, /*#__PURE__*/_react.default.createElement(_router.Router, {
         basepath: __BASE_PATH__,
         location: location,
         id: "gatsby-focus-wrapper"
@@ -129,28 +103,23 @@ window.___loader = _loader.publicLoader;
   // - it's the offline plugin shell (/offline-plugin-app-shell-fallback/)
 
   if (pagePath && __BASE_PATH__ + pagePath !== browserLoc.pathname && !(loader.findMatchPath((0, _stripPrefix.default)(browserLoc.pathname, __BASE_PATH__)) || pagePath === `/404.html` || pagePath.match(/^\/404\/?$/) || pagePath.match(/^\/offline-plugin-app-shell-fallback\/?$/))) {
-    (0, _reachRouter.navigate)(__BASE_PATH__ + pagePath + browserLoc.search + browserLoc.hash, {
+    (0, _router.navigate)(__BASE_PATH__ + pagePath + browserLoc.search + browserLoc.hash, {
       replace: true
     });
   }
 
   _loader.publicLoader.loadPage(browserLoc.pathname).then(page => {
     if (!page || page.status === _loader.PageResourceStatus.Error) {
-      const message = `page resources for ${browserLoc.pathname} not found. Not rendering React`; // if the chunk throws an error we want to capture the real error
-      // This should help with https://github.com/gatsbyjs/gatsby/issues/19618
-
-      if (page && page.error) {
-        console.error(message);
-        throw page.error;
-      }
-
-      throw new Error(message);
+      throw new Error(`page resources for ${browserLoc.pathname} not found. Not rendering React`);
     }
 
     window.___webpackCompilationHash = page.page.webpackCompilationHash;
-    const SiteRoot = (0, _apiRunnerBrowser.apiRunner)(`wrapRootElement`, {
-      element: /*#__PURE__*/_react.default.createElement(LocationHandler, null)
-    }, /*#__PURE__*/_react.default.createElement(LocationHandler, null), ({
+
+    const Root = () => /*#__PURE__*/_react.default.createElement(_router.Location, null, locationContext => /*#__PURE__*/_react.default.createElement(LocationHandler, locationContext));
+
+    const WrappedRoot = (0, _apiRunnerBrowser.apiRunner)(`wrapRootElement`, {
+      element: /*#__PURE__*/_react.default.createElement(Root, null)
+    }, /*#__PURE__*/_react.default.createElement(Root, null), ({
       result
     }) => {
       return {
@@ -158,11 +127,11 @@ window.___loader = _loader.publicLoader;
       };
     }).pop();
 
-    const App = () => /*#__PURE__*/_react.default.createElement(GatsbyRoot, null, SiteRoot);
+    const NewRoot = () => WrappedRoot;
 
     const renderer = (0, _apiRunnerBrowser.apiRunner)(`replaceHydrateFunction`, undefined, _reactDom.default.hydrate)[0];
     (0, _domready.default)(() => {
-      renderer( /*#__PURE__*/_react.default.createElement(App, null), typeof window !== `undefined` ? document.getElementById(`___gatsby`) : void 0, () => {
+      renderer( /*#__PURE__*/_react.default.createElement(NewRoot, null), typeof window !== `undefined` ? document.getElementById(`___gatsby`) : void 0, () => {
         (0, _apiRunnerBrowser.apiRunner)(`onInitialClientRender`);
       });
     });

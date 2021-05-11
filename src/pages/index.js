@@ -9,7 +9,7 @@ import Contact from "../elements/contact/contact";
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Waxon" />
+    <SEO title="CarolynHilpisch" />
     <Banner />
     <About />
     <div className="portfolio-id" id="portfolio">

@@ -2,11 +2,6 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-exports.__esModule = true;
-exports.notCalledFunction = notCalledFunction;
-
-var _interopRequireWildcard2 = _interopRequireDefault(require("@babel/runtime/helpers/interopRequireWildcard"));
-
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
@@ -23,46 +18,18 @@ var _apiRunnerBrowser = require("./api-runner-browser");
 
 var _loader = require("./loader");
 
-var _indicator = require("./loading-indicator/indicator");
-
 var _devLoader = _interopRequireDefault(require("./dev-loader"));
 
-var _asyncRequires = _interopRequireDefault(require("$virtual/async-requires"));
+var _syncRequires = _interopRequireDefault(require("./sync-requires"));
 
-var _matchPaths = _interopRequireDefault(require("$virtual/match-paths.json"));
-
-var _loadingIndicator = require("./loading-indicator");
-
-var _root = _interopRequireDefault(require("./root"));
-
-var _navigation = require("./navigation");
-
-require("./blank.css");
+var _matchPaths = _interopRequireDefault(require("./match-paths.json"));
 
 // Generated during bootstrap
-// ensure in develop we have at least some .css (even if it's empty).
-// this is so there is no warning about not matching content-type when site doesn't include any regular css (for example when css-in-js is used)
-// this also make sure that if all css is removed in develop we are not left with stale commons.css that have stale content
-// Enable fast-refresh for virtual sync-requires, gatsby-browser & navigation
-// To ensure that our <Root /> component can hot reload in case anything below doesn't
-// satisfy fast-refresh constraints
-module.hot.accept([`$virtual/async-requires`, `./api-runner-browser`, `./navigation`]);
 window.___emitter = _emitter.default;
-const loader = new _devLoader.default(_asyncRequires.default, _matchPaths.default);
+const loader = new _devLoader.default(_syncRequires.default, _matchPaths.default);
 (0, _loader.setLoader)(loader);
 loader.setApiRunner(_apiRunnerBrowser.apiRunner);
-window.___loader = _loader.publicLoader; // Do dummy dynamic import so the jsonp __webpack_require__.e is added to the commons.js
-// bundle. This ensures hot reloading doesn't break when someone first adds
-// a dynamic import.
-//
-// Without this, the runtime breaks with a
-// "TypeError: __webpack_require__.e is not a function"
-// error.
-
-function notCalledFunction() {
-  return Promise.resolve().then(() => (0, _interopRequireWildcard2.default)(require(`./dummy`)));
-} // Let the site/plugins run code very early.
-
+window.___loader = _loader.publicLoader; // Let the site/plugins run code very early.
 
 (0, _apiRunnerBrowser.apiRunnerAsync)(`onClientEntry`).then(() => {
   // Hook up the client to socket.io on server
@@ -76,26 +43,17 @@ function notCalledFunction() {
 
   fetch(`/___services`).then(res => res.json()).then(services => {
     if (services.developstatusserver) {
-      let isRestarting = false;
-      const parentSocket = (0, _socket.default)(`${window.location.protocol}//${window.location.hostname}:${services.developstatusserver.port}`);
-      parentSocket.on(`structured-log`, msg => {
-        if (!isRestarting && msg.type === `LOG_ACTION` && msg.action.type === `DEVELOP` && msg.action.payload === `RESTART_REQUIRED` && window.confirm(`The develop process needs to be restarted for the changes to ${msg.action.dirtyFile} to be applied.\nDo you want to restart the develop process now?`)) {
-          isRestarting = true;
-          parentSocket.emit(`develop:restart`, () => {
+      const parentSocket = (0, _socket.default)(`http://${window.location.hostname}:${services.developstatusserver.port}`);
+      parentSocket.on(`develop:needs-restart`, msg => {
+        if (window.confirm(`The develop process needs to be restarted for the changes to ${msg.dirtyFile} to be applied.\nDo you want to restart the develop process now?`)) {
+          parentSocket.once(`develop:is-starting`, msg => {
             window.location.reload();
           });
+          parentSocket.once(`develop:started`, msg => {
+            window.location.reload();
+          });
+          parentSocket.emit(`develop:restart`);
         }
-
-        if (isRestarting && msg.type === `LOG_ACTION` && msg.action.type === `SET_STATUS` && msg.action.payload === `SUCCESS`) {
-          isRestarting = false;
-          window.location.reload();
-        }
-      }); // Prevents certain browsers spamming XHR 'ERR_CONNECTION_REFUSED'
-      // errors within the console, such as when exiting the develop process.
-
-      parentSocket.on(`disconnect`, () => {
-        console.warn(`[socket.io] Disconnected. Unable to perform health-check.`);
-        parentSocket.close();
       });
     }
   });
@@ -115,49 +73,14 @@ function notCalledFunction() {
   }
 
   const rootElement = document.getElementById(`___gatsby`);
-  const focusEl = document.getElementById(`gatsby-focus-wrapper`);
-  const renderer = (0, _apiRunnerBrowser.apiRunner)(`replaceHydrateFunction`, undefined, // Client only pages have any empty body so we just do a normal
-  // render to avoid React complaining about hydration mis-matches.
-  focusEl && focusEl.children.length > 0 ? _reactDom.default.hydrate : _reactDom.default.render)[0];
-  let dismissLoadingIndicator;
-
-  if (process.env.GATSBY_EXPERIMENTAL_QUERY_ON_DEMAND && process.env.GATSBY_QUERY_ON_DEMAND_LOADING_INDICATOR === `true`) {
-    let indicatorMountElement;
-    const showIndicatorTimeout = setTimeout(() => {
-      indicatorMountElement = document.createElement(`first-render-loading-indicator`);
-      document.body.append(indicatorMountElement);
-
-      _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_indicator.Indicator, null), indicatorMountElement);
-    }, 1000);
-
-    dismissLoadingIndicator = () => {
-      clearTimeout(showIndicatorTimeout);
-
-      if (indicatorMountElement) {
-        _reactDom.default.unmountComponentAtNode(indicatorMountElement);
-
-        indicatorMountElement.remove();
-      }
-    };
-  }
-
+  const renderer = (0, _apiRunnerBrowser.apiRunner)(`replaceHydrateFunction`, undefined, _reactDom.default.render)[0];
   Promise.all([loader.loadPage(`/dev-404-page/`), loader.loadPage(`/404.html`), loader.loadPage(window.location.pathname)]).then(() => {
-    (0, _navigation.init)();
+    const preferDefault = m => m && m.default || m;
+
+    let Root = preferDefault(require(`./root`));
     (0, _domready.default)(() => {
-      if (dismissLoadingIndicator) {
-        dismissLoadingIndicator();
-      }
-
-      renderer( /*#__PURE__*/_react.default.createElement(_root.default, null), rootElement, () => {
-        (0, _apiRunnerBrowser.apiRunner)(`onInitialClientRender`); // Render query on demand overlay
-
-        if (process.env.GATSBY_QUERY_ON_DEMAND_LOADING_INDICATOR && process.env.GATSBY_QUERY_ON_DEMAND_LOADING_INDICATOR === `true`) {
-          const indicatorMountElement = document.createElement(`div`);
-          indicatorMountElement.setAttribute(`id`, `query-on-demand-indicator-element`);
-          document.body.append(indicatorMountElement);
-
-          _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_loadingIndicator.LoadingIndicatorEventHandler, null), indicatorMountElement);
-        }
+      renderer( /*#__PURE__*/_react.default.createElement(Root, null), rootElement, () => {
+        (0, _apiRunnerBrowser.apiRunner)(`onInitialClientRender`);
       });
     });
   });

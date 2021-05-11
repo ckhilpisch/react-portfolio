@@ -1,15 +1,12 @@
 var plugins = [{
-      name: 'gatsby-plugin-react-helmet',
       plugin: require('/Users/ckhilpisch/Desktop/react-portfolio/node_modules/gatsby-plugin-react-helmet/gatsby-ssr'),
       options: {"plugins":[]},
     },{
-      name: 'gatsby-plugin-image',
-      plugin: require('/Users/ckhilpisch/Desktop/react-portfolio/node_modules/gatsby-plugin-image/gatsby-ssr'),
-      options: {"plugins":[]},
+      plugin: require('/Users/ckhilpisch/Desktop/react-portfolio/node_modules/gatsby-plugin-google-fonts/gatsby-ssr'),
+      options: {"plugins":[],"fonts":["Mulish","sans-serif:300","400","500","600","700"],"display":"swap"},
     },{
-      name: 'gatsby-plugin-manifest',
       plugin: require('/Users/ckhilpisch/Desktop/react-portfolio/node_modules/gatsby-plugin-manifest/gatsby-ssr'),
-      options: {"plugins":[],"name":"gatsby-starter-default","short_name":"starter","start_url":"/","background_color":"#663399","theme_color":"#663399","display":"minimal-ui","icon":"src/images/gatsby-icon.png","legacy":true,"theme_color_in_head":true,"cache_busting_mode":"query","crossOrigin":"anonymous","include_favicon":true,"cacheDigest":"4a9773549091c227cd2eb82ccd9c5e3a"},
+      options: {"plugins":[],"name":"gatsby-starter-default","short_name":"starter","start_url":"/","background_color":"#663399","theme_color":"#663399","display":"minimal-ui","icon":"src/assets/images/icon.png","cache_busting_mode":"query","include_favicon":true,"legacy":true,"theme_color_in_head":true,"cacheDigest":"d96c50c5315328fe077f4f4883d3ad1c"},
     }]
 // During bootstrap, we write requires at top of this file which looks like:
 // var plugins = [
@@ -37,21 +34,11 @@ module.exports = (api, args, defaultReturn, argTransform) => {
     if (!plugin.plugin[api]) {
       return undefined
     }
-    try {
-      const result = plugin.plugin[api](args, plugin.options)
-      if (result && argTransform) {
-        args = argTransform({ args, result })
-      }
-      return result
-    } catch (e) {
-      if (plugin.name !== `default-site-plugin`) {
-        // default-site-plugin is user code and will print proper stack trace,
-        // so no point in annotating error message pointing out which plugin is root of the problem
-        e.message += ` (from plugin: ${plugin.name})`
-      }
-
-      throw e
+    const result = plugin.plugin[api](args, plugin.options)
+    if (result && argTransform) {
+      args = argTransform({ args, result })
     }
+    return result
   })
 
   // Filter out undefined results.

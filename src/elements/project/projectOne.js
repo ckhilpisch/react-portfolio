@@ -6,22 +6,10 @@ const ProjectOne = () => {
     const ProjectData = useStaticQuery(graphql`
         query ProjectDataQuery {
             allProjectJson {
-               
-                  body {
                     id
                     title
                     category
-                    featured_image {
-                        childImageSharp {
-                            fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
-                                ...GatsbyImageSharpFluid_withWebp
-                                presentationWidth
-                                presentationHeight
-                            }
-                        }
-                    }
-                  }
-                
+                    featured_image    
             }
         }
     `);

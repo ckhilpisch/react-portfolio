@@ -9,7 +9,7 @@ const Banner = () => {
                 homedefaultJson(id: {eq: "main-banner"}) {
                 title    
                 subtitle
-                bgImage {
+                image {
                     childImageSharp {
                         fluid(quality: 100, maxWidth: 1920, maxHeight: 850) {
                             ...GatsbyImageSharpFluid_withWebp
